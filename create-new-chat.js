@@ -1,7 +1,7 @@
 const $targetEl = document.getElementById('crud-modal');
 const modal = new Modal($targetEl)
-const appId = ""
-const api_token = ""
+const appId = "<Add Your TalkJS APP ID Here>"
+const api_token = "<Add Your TalkJS REST API Token Here>"
 
 
 Talk.ready.then(function () {
