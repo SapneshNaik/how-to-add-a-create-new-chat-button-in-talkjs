@@ -1,8 +1,6 @@
 const $targetEl = document.getElementById('crud-modal');
 const modal = new Modal($targetEl)
 const appId = "<Add Your TalkJS APP ID Here>"
-const api_token = "<Add Your TalkJS REST API Token Here>"
-
 
 Talk.ready.then(function () {
     var me = new Talk.User({
@@ -30,7 +28,7 @@ Talk.ready.then(function () {
     conversation.setParticipant(me);
     conversation.setParticipant(other);
 
-    var inbox = talkSession.createInbox({theme: 'Create-New-Chat-From-Conv-Header'});
+    var inbox = talkSession.createInbox({ theme: 'Create-New-Chat-From-Conv-Header' });
     inbox.select(conversation);
     inbox.mount(document.getElementById('talkjs-container'));
 
@@ -60,7 +58,7 @@ function createNewChat(event) {
             subject: event.target.elements.subject.value
         });
     }
-    var inbox = talkSession.createInbox({theme: 'Create-New-Chat-From-Conv-Header'});
+    var inbox = talkSession.createInbox({ theme: 'Create-New-Chat-From-Conv-Header' });
     inbox.select(conversation);
     inbox.mount(document.getElementById('talkjs-container'));
 
@@ -70,24 +68,28 @@ function createNewChat(event) {
 }
 
 function showNewCoonversationModal() {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + api_token);
+    var talkJsUsers = getTalkJSUsers()
 
-    var requestOptions = {
-        headers: myHeaders
-    };
+    participantsSelect = document.getElementById('participants');
 
-    fetch("https://api.talkjs.com/v1/" + appId + "/users", requestOptions)
-        .then(response => response.json())
-        .then((results) => {
-            participantsSelect = document.getElementById('participants');
+    for (var i = 0; i < talkJsUsers.length; i++) {
+        participantsSelect.options[i] = new Option(talkJsUsers[i].name, talkJsUsers[i].id);
+    }
 
-            for (var i = 0; i < results.data.length; i++) {
-                participantsSelect.options[i] = new Option(results.data[i].name, results.data[i].id);
-            }
+    modal.show()
+}
 
-            modal.show()
-
-        })
-        .catch(error => console.log('error', error));
+function getTalkJSUsers() {
+    return [
+        { id: "123457", name: "Alice" },
+        { id: "Zafar", name: "Zafar" },
+        { id: "Simba", name: "Simba" },
+        { id: "Xiang", name: "Xiang" },
+        { id: "Patel", name: "Patel" },
+        { id: "Sapnesh", name: "Sapnesh" },
+        { id: "Irwin", name: "Irwin" },
+        { id: "Adams", name: "Adams" },
+        { id: "sample_user_alice", name: "Alice" },
+        { id: "sample_user_sebastian", name: "Sebastian" },
+    ]
 }
